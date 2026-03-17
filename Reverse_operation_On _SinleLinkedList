@@ -1,0 +1,65 @@
+ #include<stdio.h> 
+#include<stdlib.h>  
+struct node 
+{ 
+int data; 
+struct node *next; 
+}; 
+typedef struct node NODE; NODE *head=NULL; 
+ NODE *create(); 
+void traverse(); void insert(); 
+void reverse(NODE*);  
+NODE *create() 
+{ 
+NODE *newnode=(NODE*)malloc(sizeof(NODE)); 
+ printf("Enter Data:"); 
+scanf("%d",&newnode->data);  
+newnode->next=NULL; 
+return newnode; 
+} 
+void traverse() 
+{ 
+NODE *t=head; 
+ while(t!=NULL) 
+{ 
+printf("-->%d",t->data); 
+ t=t->next; 
+} 
+printf("\n"); 
+} 
+void insert() 
+{ 
+NODE *newnode=create(),*t;  
+if(head==NULL) 
+ head=newnode; 
+else 
+{ 
+t=head; 
+while(t->next!=NULL) 
+ t=t->next; 
+t->next=newnode; 
+} 
+  
+}
+void reverse(NODE *t) 
+{ 
+if(t==NULL) 
+return; else 
+{ 
+reverse(t->next);  
+printf("-->%d",t->data); 
+} 
+} 
+ 
+int main() 
+{ 
+int n,i; 
+printf("Enter Number of nodes to insert:"); 
+ scanf("%d",&n); 
+for(i=0;i<n;i++) insert(); 
+printf("Before reverse\n"); 
+ traverse(); 
+printf("After reverse\n");  
+reverse(head); 
+return 0; 
+} 
