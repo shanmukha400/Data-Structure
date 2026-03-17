@@ -1,0 +1,75 @@
+Write a C Program  to Implement a program to evaluate a postfix expression
+#include <stdio.h> 
+#include <ctype.h> 
+#include <stdlib.h> 
+#include <string.h> 
+ 
+#define MAX 100 
+ 
+int stack[MAX]; 
+int top = -1; 
+ 
+void push(int value) { 
+    if (top == MAX - 1) { 
+        printf("Stack Overflow!\n");
+         return; 
+    } 
+    stack[++top] = value; 
+} 
+ 
+int pop() { 
+    if (top == -1) { 
+        printf("Stack Underflow!\n"); 
+        exit(1); 
+    } 
+    return stack[top--]; 
+} 
+ 
+int evaluatePostfix(char* expr) { 
+    int i = 0; 
+    while (expr[i] != '\0') { 
+        if (expr[i] == ' ') { 
+            i++; 
+            continue; 
+        } 
+ 
+        // If operand (multi-digit supported) 
+        if (isdigit(expr[i])) { 
+            int num = 0; 
+            while (isdigit(expr[i])) { 
+                num = num * 10 + (expr[i] - '0'); 
+                i++; 
+            } 
+            push(num); 
+        } 
+        // If operator 
+        else { 
+            int val2 = pop(); 
+            int val1 = pop(); 
+            switch (expr[i]) { 
+                case '+': push(val1 + val2); break; 
+                case '-': push(val1 - val2); break; 
+                case '*': push(val1 * val2); break; 
+                case '/': push(val1 / val2); break; 
+                default: 
+                    printf("Invalid operator encountered: %c\n", expr[i]); 
+                    exit(1); 
+            } 
+            i++; 
+        } 
+   } 
+         return pop(); 
+} 
+ 
+int main()  
+{ 
+    char expr[MAX]; 
+ 
+    printf("Enter a postfix expression (space-separated): "); 
+    fgets(expr, MAX, stdin); 
+ 
+    int result = evaluatePostfix(expr); 
+    printf("Result of the expression: %d\n", result); 
+ 
+    return 0; 
+}
