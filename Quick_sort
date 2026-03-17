@@ -1,0 +1,70 @@
+#include <stdio.h> 
+ 
+// Function declarations 
+void quicksort(int [], int, int); 
+int partition(int [], int, int); 
+ 
+int main() { 
+    int a[50], n, i; 
+ 
+    // Input number of elements 
+    printf("Enter the number of elements: "); 
+    scanf("%d", &n); 
+ 
+    // Input array elements 
+    printf("\nEnter the %d elements to be sorted:\n", n); 
+    for (i = 0; i < n; i++) { 
+        printf("a[%d] = ", i); 
+        scanf("%d", &a[i]); 
+    } 
+ 
+    // Call quicksort 
+    quicksort(a, 0, n - 1); 
+ 
+    // Output sorted array 
+    printf("\nArray after applying Quick Sort:\n"); 
+    for (i = 0; i < n; i++) { 
+        printf("%d ", a[i]); 
+    } 
+    printf("\n"); 
+ 
+    return 0; 
+} 
+ 
+// Recursive Quick Sort function 
+void quicksort(int a[], int low, int high) { 
+    if (low < high) { 
+        int j = partition(a, low, high); 
+        quicksort(a, low, j - 1); 
+        quicksort(a, j + 1, high); 
+    } 
+}
+// Partition function 
+int partition(int a[], int low, int high) { 
+    int pivot = a[low]; // First element as pivot 
+    int i = low + 1; 
+    int j = high; 
+    int temp; 
+ 
+    while (i <= j) { 
+        while (i <= high && a[i] <= pivot) { 
+            i++; 
+        } 
+        while (a[j] > pivot) { 
+            j--; 
+        } 
+        if (i < j) { 
+            // Swap a[i] and a[j] 
+            temp = a[i]; 
+            a[i] = a[j]; 
+            a[j] = temp; 
+        } 
+    } 
+ 
+    // Swap pivot with a[j] 
+    temp = a[low]; 
+    a[low] = a[j]; 
+    a[j] = temp; 
+ 
+    return j; // Return partition index 
+}
